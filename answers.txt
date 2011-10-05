@@ -1,0 +1,6 @@
+1.Explain how a typical HTTP request is processed with the framework (the request lifecycle)
+play framwork based on MVC pattern
+receive HTTP request (our events for which controller handles), controller  invokes corresponding method, model provides date which is delivered to view for browser (html files), 
+
+2.How could you test user interfaces with the testing facilities in play! framework?
+by "selenium", used for interface testing, generates HTML requests to test the interface, with it, we can test modules of our model classes,...
