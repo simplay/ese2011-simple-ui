@@ -39,5 +39,11 @@ public class User {
 		return this.calendar;
 	}
 	
+	public Calendar getCalendarByName(User user) {
+		
+		return user.getCalendar();
+	
+	}
+	
 	
 }

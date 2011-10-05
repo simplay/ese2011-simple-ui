@@ -13,8 +13,8 @@
 		</p>
 	#{/list}
 	#{if user==me} 
-		<a href=""> New Event</a>  <br> 
-	
+ 			<a href="@{Application.addEvent(me.name)}"> New Event</a>  <br>
 	#{/if}
+	
 <a href="@{Application.index()}">Home</a>  
 <a href="@{Secure.logout()}">Log out</a> 

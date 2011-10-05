@@ -1,4 +1,6 @@
 package controllers;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import play.*;
@@ -52,13 +54,10 @@ public class Application extends Controller {
     	while(allVisibleEvents.hasNext()){
     		events.add((Event) allVisibleEvents.next());
     	}
+    	
     	render(me, user, events, calendarName, calendars);
     }
     
-    public static void newEvent(String calendarName, String oldEventName, 
-    		String newEventName, String start, String end, boolean isPublic){
-    	
-    }
     
     public static void newUser(@Required String name){
     	User user;
@@ -66,6 +65,7 @@ public class Application extends Controller {
     	Date now = new Date();
     	
     	if(!name.isEmpty()){
+    		// mache user mit default daten:
     		user = new User(name, "123");
         	event=new Event(now, now,"abc",true);
         	user.calendar.addEvent(event);
@@ -76,8 +76,32 @@ public class Application extends Controller {
     	}
     }
     
-    public static void addEvent(Calendar calendar, String name, Date start, Date end, boolean is_visible){
-    	Event e = new Event(start, end, name, is_visible);
+    public static void creatEvent(@Required String name,@Required String start,@Required String end, boolean is_visible){
+    	User me = Database.users.get(Security.connected());
+    	Calendar calendar = me.getCalendarByName(me);
+    	
+    	// covert dates
+    	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    	Date d_start = null;
+        Date d_end = null;
+        
+        try {
+        	d_start = dateFormat.parse(start);
+        	d_end = dateFormat.parse(end);
+        }catch (Exception e) {
+        	d_start = new Date(1,1,1);
+        	d_end = new Date(1,1,1);
+        }
+           
+    	
+    	Event e = new Event(d_start, d_end, name, is_visible);
     	calendar.addEvent(e);
+    }
+    
+    public static void addEvent(String name){
+    	User me = Database.users.get(Security.connected());
+    	Calendar calendar = me.getCalendarByName(me);
+    	
+    	render(me, calendar);
     }
 }
