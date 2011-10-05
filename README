@@ -1,0 +1,8 @@
+TODOs:
+- Fix ugly look
+- allow user to have more than one calendar
+- authorize only chosen/trusted users to create new users (=admins) 
+- create users in a more flexible way
+- implement delation,edit of entities
+- write more test, only a few imported
+- much more but requirements are fulfilled

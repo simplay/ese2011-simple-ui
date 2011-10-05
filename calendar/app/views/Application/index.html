@@ -1,8 +1,13 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-<h1>hallo ${me.name}</h1>
+<h1>Hello ${me.name}</h1>
 
+<h2>News:</h2>
+So far, each user ownes 1 calendar. this will be fixed soon.
+Furthermore, every user is permitted to create new user by name, which have a default password equals ""123".
+Up to now, they cannot change their password but this will be fixed soon.
+Click on "show my calendars" to see your calendars.
 
 #{ifnot users}
     <p>
@@ -11,13 +16,13 @@
 #{/ifnot}
 
 <p>
-Other Users:
+<b>Other Users:</b>
 <ul>
     #{list items:users, as:'data'}
         #{ifnot data==me}
-        <li>
-            	<li><a href="@{Application.showCalendars(data.name)}">${data.name}</a></li>        
-        </li>
+	        <li>
+	            	<a href="@{Application.showCalendars(data.name)}">${data.name}</a>        
+	        </li>
         #{/ifnot}
     #{/list}
 </ul>
