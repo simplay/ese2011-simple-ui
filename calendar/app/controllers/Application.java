@@ -23,7 +23,7 @@ public class Application extends Controller {
         render(users,me);
     }
     
-    public static void showUsers(){
+    public static void showMe(){
     	User me = Database.users.get(Security.connected());
         List<User> users = Database.getUserList();
         Calendar defaultCalendar = me.getdefaultCalendar();
