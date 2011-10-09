@@ -26,27 +26,28 @@ public class Application extends Controller {
     public static void showUsers(){
     	User me = Database.users.get(Security.connected());
         List<User> users = Database.getUserList();
-        Calendar calendars = me.getCalendar();
-        render(me, users, calendars);
+        Calendar defaultCalendar = me.getdefaultCalendar();
+        LinkedList<Calendar> calendars = me.getCalendars();
+        render(me, users, calendars, defaultCalendar);
     }
     
     
     public static void showCalendars(String username) {
         User me = Database.users.get(Security.connected());
         User user = Database.users.get(username);
-        Calendar calendars = null;
+        LinkedList<Calendar> calendars = null;
         if(me != null && user != null) {
-        	calendars = user.getCalendar();
+        	calendars = user.getCalendars();
        	}
         render(me, user, calendars);
     }
     
-    public static void showEvents(String username, String calendarName) {
+    public static void showEvents(long calendarId, String username, String calendarName) {
     	User me = Database.users.get(Security.connected());
     	User user = Database.users.get(username);
     	Date d = new Date(1,1,1);
-    	Iterator allVisibleEvents = user.getCalendar().getEventList(d, me);
-    	Calendar calendars = user.getCalendar();
+    	Iterator allVisibleEvents = user.getCalendarById(calendarId).getEventList(d, me);
+    	Calendar calendars = user.getCalendarById(calendarId);
     	
     	LinkedList<Event> events = new LinkedList<Event>();
     	
@@ -55,7 +56,7 @@ public class Application extends Controller {
     		events.add((Event) allVisibleEvents.next());
     	}
     	
-    	render(me, user, events, calendarName, calendars);
+    	render(me, user, events, calendarName, calendars, calendarId);
     }
     
     
@@ -68,7 +69,9 @@ public class Application extends Controller {
     		// mache user mit default daten:
     		user = new User(name, "123");
         	event=new Event(now, now,"abc",true);
-        	user.calendar.addEvent(event);
+        	//user.calendar.
+        	user.getdefaultCalendar().addEvent(event);
+        	
         	Database.addUser(user);
         	//Data d = new Data(value);
         	
@@ -76,9 +79,13 @@ public class Application extends Controller {
     	}
     }
     
-    public static void creatEvent(@Required String name,@Required String start,@Required String end, boolean is_visible){
+    public static void creatEvent(@Required long calendarID, @Required String name,
+    		@Required String start,@Required String end, boolean is_visible){
+    	
     	User me = Database.users.get(Security.connected());
-    	Calendar calendar = me.getCalendarByName(me);
+    	Calendar calendar = me.getCalendarById(calendarID);
+    	
+    	
     	
     	// covert dates
     	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -93,15 +100,51 @@ public class Application extends Controller {
         	d_end = new Date(1,1,1);
         }
            
-    	
     	Event e = new Event(d_start, d_end, name, is_visible);
     	calendar.addEvent(e);
+    	
     }
     
-    public static void addEvent(String name){
-    	User me = Database.users.get(Security.connected());
-    	Calendar calendar = me.getCalendarByName(me);
+    
+    public static void saveEditedEvent(@Required long eventID, @Required long calendarID, @Required String name,
+    		@Required String start,@Required String end, boolean is_visible){
     	
-    	render(me, calendar);
+    	User me = Database.users.get(Security.connected());
+    	Calendar calendar = me.getCalendarById(calendarID);
+    	
+    	
+    	
+    	// covert dates
+    	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    	Date d_start = null;
+        Date d_end = null;
+        
+        try {
+        	d_start = dateFormat.parse(start);
+        	d_end = dateFormat.parse(end);
+        }catch (Exception e) {
+        	d_start = new Date(1,1,1);
+        	d_end = new Date(1,1,1);
+        }
+        
+       
+    	Event event = calendar.getEventById(eventID);
+    	
+    	event.edit(d_start, d_end, name, is_visible);
+    	
+    }
+    
+    public static void editEvent(long eventID, long calendarID, String name){
+    	User me = Database.users.get(Security.connected());
+    	Calendar calendar = me.getCalendarById(calendarID);
+    	Event event = calendar.getEventById(eventID);
+    	render(me, calendar, event, calendarID, eventID);
+    	
+    }
+    
+    public static void addEvent(long calendarID, String name){
+    	User me = Database.users.get(Security.connected());
+    	Calendar calendar = me.getCalendarById(calendarID);
+    	render(me, calendar, calendarID);
     }
 }

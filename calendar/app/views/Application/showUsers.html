@@ -1,11 +1,10 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
-
 <h1>${me.name}'s Calendars:</h1>
 <p>
 	#{list items:calendars, as:'calendar'}
 		<p>
-			<li><a href="@{Application.showEvents(me.name, calendar.name)}"> ${calendar.name}</a></li>  
+			<li><a href="@{Application.showEvents(calendar.getId(), me.name, calendar.name)}"> ${calendar.name}</a></li>  
 		</p>
 	#{/list}
 	

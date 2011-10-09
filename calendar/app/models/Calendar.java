@@ -9,12 +9,15 @@ public class Calendar {
 	private String name;
 	public User owner;
 	private PriorityQueue<Event> events;
-	
+	public long id;
+	private static long counter;
 	
 	public Calendar(String name, User owner){
 		this.name = name;
 		this.owner = owner;
 		events = new PriorityQueue<Event>();
+		counter++;
+		this.id = counter;
 	}
 	
 	public User getOwner(){
@@ -23,6 +26,10 @@ public class Calendar {
 	
 	public String getName(){
 		return this.name;
+	}
+	
+	public long getId(){
+		return this.id;
 	}
 	
 	public void addEvent(Date startDate, Date endDate, String name, boolean is_visible){
@@ -80,5 +87,11 @@ public class Calendar {
 		// Iterator itr = al.iterator();
 		Iterator<Event> iter = events_tmp.iterator();
 		return iter;
+	}
+	
+	public Event getEventById(long id){
+		Event result = null;
+		for(Event e : events) if(e.getId() == id) result = e; 
+		return result;
 	}
 }

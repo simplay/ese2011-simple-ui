@@ -4,10 +4,11 @@
 
 # Home page
 GET     /                                       Application.index
-GET		/users									Application.showUsers
+GET		/user									Application.showUsers
 GET 	/calendars								Application.showCalendars
 GET 	/events									Application.showEvents
 GET 	/addEvent								Application.addEvent
+GET 	/editEvent								Application.editEvent
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

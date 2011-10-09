@@ -1,8 +1,10 @@
 package models;
 
+import java.util.LinkedList;
+
 public class User {
 	public String name;
-	public Calendar calendar;
+	public LinkedList<Calendar> calendar;
 	public String password;
 	public long id;
 	private static long counter;
@@ -16,7 +18,10 @@ public class User {
 		this.password = password;
 		counter++;
 		this.id = counter;
-		calendar = new Calendar(name+"'s first calendar", this);
+		
+		calendar = new LinkedList<Calendar>();
+		// each user x has a default a calender called: x's first calendar
+		calendar.add(new Calendar(name+"'s first calendar", this));
 		
 		// postconditions
 		assert this.name.equals(name);
@@ -35,15 +40,32 @@ public class User {
 		return this.password;
 	}
 	
-	public Calendar getCalendar(){
+	// return all calendars of a user
+	public LinkedList<Calendar> getCalendars(){
 		return this.calendar;
 	}
 	
-	public Calendar getCalendarByName(User user) {
-		
-		return user.getCalendar();
-	
+	// get default calendar back
+	public Calendar getdefaultCalendar(){
+		return this.calendar.getFirst();
 	}
 	
+	// get a all calendars of a user - linkedlist
+	// entferne dann noch argument für call
+	public LinkedList<Calendar> getCalendarsByName(User user) {
+		return user.getCalendars();
+	}
+	
+	public Calendar getCalendarById(long calID){
+		Calendar result = null;
+		for(Calendar cal : calendar){
+			if(cal.getId() == calID) result = cal;
+		}
+		return result;
+	}
+	
+	public void addCalendar(Calendar cal){
+		calendar.add(cal);
+	}
 	
 }
