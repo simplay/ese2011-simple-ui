@@ -10,7 +10,8 @@
 			<li>
 				<b> Event name:</b>${event.name},  <b>from:</b>${event.start}  ,<b>to:</b>${event.end} #{if user==me},  
 				<b>is_visible</b>:${event.is_visible} #{/if} 
-				#{if user==me} <b><a href="@{Application.editEvent(event.getId(), calendarId, me.name )}"> Edit </a></b> #{/if}
+				#{if user==me} <b><a href="@{Application.editEvent(event.getId(), calendarId, me.name )}"> Edit </a></b>  
+				<b><a href="@{Application.removeEvent(calendarId, event.getId() )}"> Remove </a></b>  #{/if}
 				 
 			</li>  
 		</p>

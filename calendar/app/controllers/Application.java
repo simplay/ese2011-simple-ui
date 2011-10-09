@@ -147,4 +147,10 @@ public class Application extends Controller {
     	Calendar calendar = me.getCalendarById(calendarID);
     	render(me, calendar, calendarID);
     }
+    
+    public static void removeEvent(long calendarID, long eventID){
+    	User me = Database.users.get(Security.connected());
+    	Calendar calendar = me.getCalendarById(calendarID);
+    	calendar.removeEvent(eventID);
+    }
 }

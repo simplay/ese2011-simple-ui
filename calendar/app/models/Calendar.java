@@ -89,9 +89,20 @@ public class Calendar {
 		return iter;
 	}
 	
+	// return all visible events of a given months => for graphical calendar
+	public LinkedList<Event> getEventsOfMonth(Date month){
+		return null;
+	}
+	
 	public Event getEventById(long id){
 		Event result = null;
 		for(Event e : events) if(e.getId() == id) result = e; 
 		return result;
 	}
+	
+	// removes an event by its id
+	public void removeEvent(long id){
+		for(Event e : events) if(e.getId() == id) events.remove(e); 
+	}
+	
 }
