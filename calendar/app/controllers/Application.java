@@ -48,9 +48,7 @@ public class Application extends Controller {
     	Date d = new Date(1,1,1);
     	Iterator allVisibleEvents = user.getCalendarById(calendarId).getEventList(d, me);
     	Calendar calendars = user.getCalendarById(calendarId);
-    	
     	LinkedList<Event> events = new LinkedList<Event>();
-    	
     	
     	while(allVisibleEvents.hasNext()){
     		events.add((Event) allVisibleEvents.next());
@@ -84,9 +82,7 @@ public class Application extends Controller {
     	
     	User me = Database.users.get(Security.connected());
     	Calendar calendar = me.getCalendarById(calendarID);
-    	
-    	
-    	
+    		
     	// covert dates
     	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     	Date d_start = null;
@@ -102,7 +98,7 @@ public class Application extends Controller {
            
     	Event e = new Event(d_start, d_end, name, is_visible);
     	calendar.addEvent(e);
-    	
+    	showEvents(calendarID, me.name, calendar.getName());
     }
     
     
@@ -111,8 +107,6 @@ public class Application extends Controller {
     	
     	User me = Database.users.get(Security.connected());
     	Calendar calendar = me.getCalendarById(calendarID);
-    	
-    	
     	
     	// covert dates
     	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -127,11 +121,9 @@ public class Application extends Controller {
         	d_end = new Date(1,1,1);
         }
         
-       
     	Event event = calendar.getEventById(eventID);
-    	
     	event.edit(d_start, d_end, name, is_visible);
-    	
+    	showEvents(calendarID, me.name, calendar.getName());
     }
     
     public static void editEvent(long eventID, long calendarID, String name){
@@ -139,7 +131,6 @@ public class Application extends Controller {
     	Calendar calendar = me.getCalendarById(calendarID);
     	Event event = calendar.getEventById(eventID);
     	render(me, calendar, event, calendarID, eventID);
-    	
     }
     
     public static void addEvent(long calendarID, String name){
@@ -152,5 +143,24 @@ public class Application extends Controller {
     	User me = Database.users.get(Security.connected());
     	Calendar calendar = me.getCalendarById(calendarID);
     	calendar.removeEvent(eventID);
+    	showEvents(calendarID, me.name, calendar.getName());
+    }
+    
+    public static void showTest(){
+    	User me = Database.users.get(Security.connected());
+    	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    	Date d = null;
+    	String date = "02/10/2011";
+    	
+    	
+    	
+    	 try {
+    		 d = dateFormat.parse(date);
+         }catch (Exception e) {
+         	d = new Date(1,1,1);
+        
+         }
+    	
+    	render(me, d);
     }
 }

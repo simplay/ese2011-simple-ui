@@ -1,0 +1,37 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+<header>
+<h1>${me.name}'s test:</h1>
+<p>
+bliblablup
+</p>
+</header>
+<body>
+"monatindex-1" ${d.getMonth()}
+"Wochentag Mo = 1,.. " ${d.getDay()}
+"Day": ${d.getDate()} 
+ ${d.getYear()+1900} 
+
+
+
+
+<div id="calendar">
+	blockpiece
+	<br>
+	%{ 
+		out.println("Mo "+"Di "+"Mi "+"Do "+"Fr "+"Sa "+"So ");
+		out.println('<br>')
+		int c = 1, d = 1;
+		for(int i = 0; i < 4; i++){
+			for(int j = 0; j < 7; j++){
+				out.println(c + "-");
+				c++;
+			}
+			out.println('<br>')
+
+		}
+	%} 
+</div>
+</body>	
+<a href="@{Application.index()}">Home</a>
+<a href="@{Secure.logout()}">Log out</a>
