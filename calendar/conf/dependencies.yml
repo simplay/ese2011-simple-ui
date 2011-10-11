@@ -1,5 +1,4 @@
 # Application dependencies
 
 require:
-    require:
-        - play -> secure
+    - play -> secure
